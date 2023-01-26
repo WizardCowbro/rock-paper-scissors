@@ -27,7 +27,6 @@ function rockPaperScissors(player, comp) {
         if (comp === 'rock') {return "win"}
         if (comp === 'scissors') {return "lose"}
     }
-    
 
     if (player === 'scissors') {
         if (comp === 'paper') {return 'win'}
@@ -49,6 +48,7 @@ function getMessage(outcome, player, comp) {
     }
 }
 
+/*
 function game() {
     let playerScore = 0;
     let compScore = 0;
@@ -68,5 +68,70 @@ function game() {
     if(compScore > playerScore) {console.log("You lost the game")}
     if(compScore === playerScore) {console.log("It's a tie!");}
 }
+*/
 
-game();
+//logic for the game
+let playerChoice = null;
+let compChoice = null;
+
+let playerScore = 0;
+let compScore = 0;
+let gamesPlayed = 0;
+let gameOver = false;
+
+
+const rock = document.querySelector('#rock');
+const paper = document.querySelector('#paper');
+const scissors = document.querySelector('#scissors');
+const shoot = document.querySelector("#shoot");
+
+rock.addEventListener("click", () => {
+    if(gameOver) return;
+    playerChoice = 'rock';
+    document.querySelector('.text').textContent = "Rock!";
+});
+
+paper.addEventListener('click', () => {
+    if(gameOver) return;
+    playerChoice = 'paper';
+    document.querySelector('.text').textContent = "Paper!";
+})
+
+scissors.addEventListener('click', () => {
+    if(gameOver) return;
+    playerChoice = 'scissors';
+    document.querySelector('.text').textContent = "Scissors!";
+})
+
+shoot.addEventListener('click', () => {
+    compChoice = getComputerChoice()
+    if (gameOver || playerChoice === null) return;
+    let outcome = rockPaperScissors(playerChoice, compChoice)
+    let message = getMessage(outcome, playerChoice, compChoice)
+
+    if (outcome === 'win') {
+        playerScore++;
+        gamesPlayed++;
+    } else if (outcome === 'lose') {
+        compScore++;
+        gamesPlayed++;
+    } else {
+        gamesPlayed++;
+    }
+
+    document.querySelector('.outcome').textContent = message;
+    document.querySelector('.text').textContent = 'Rock Paper Scissors';
+    console.log(outcome);
+
+    if (gamesPlayed === 5) {
+        gameOver = true;
+        document.querySelector('.text').textContent = 'Game Over!';
+        document.querySelector('.outcome').textContent = `Player score: ${playerScore} Computer Score: ${compScore}`;
+    }
+});
+
+
+
+
+
+
